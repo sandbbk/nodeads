@@ -1,0 +1,10 @@
+{% extends 'nodeads/base.html'%}
+
+{% block main %}
+        <h1>Create an element.</h1>
+
+    <form method = "POST" class = "form" enctype="multipart/form-data">{% csrf_token %}
+        {{ form.as_p }}
+        <button type = "submit" class = "save">Save</button>
+    </form>
+{% endblock %}

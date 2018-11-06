@@ -1,0 +1,24 @@
+{% extends 'nodeads/base.html' %}
+
+
+{% block nav-bar %}
+{% load mptt_tags %}
+
+        <ul class="root">
+        {% recursetree  groups %}
+            <li>
+                <a href ="{{node.id}}/"><img src="{{node.icon.url}}" class="icon" height="20">{{ node.name }}</a>
+                {% if not node.is_leaf_node %}
+                    <ul class="children">
+                    {{ children }}
+                    </ul>
+                {% endif %}
+            </li>
+        {% endrecursetree %}
+        </ul>
+
+{% endblock %}
+
+{% block main %}
+    <p>Choose someone group for viewing.</p>
+{% endblock %}

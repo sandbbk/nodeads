@@ -1,0 +1,14 @@
+{% extends 'nodeads/base.html'%}
+
+
+{% block main %}
+<div>
+    <form method = "POST" class = "form">{% csrf_token %}
+        {{ form.as_p }}
+        <button type = "submit" class = "save btn btn-default">Login</button> <p> or click
+            <a href="{% url 'register' %}">register</a> to create user.</p>
+    </form>
+    <p>You may login as <span style="font-weight: bold;">guest</span> with the
+        <span style="font-weight: bold;">guestpassword</span> to have permissions to create an elements.</p>
+</div>
+{% endblock %}

@@ -1,0 +1,86 @@
+{% extends 'nodeads/base.html' %}
+
+    {% block nav-bar %}
+    {% load mptt_tags %}
+
+        <ul class="root">
+        {% recursetree  groups %}
+            <li>
+                <a href ="/nodeads/{{node.id}}/"><img src="{{node.icon.url}}" class="icon" height="20">{{ node.name }}</a>
+                {% if not node.is_leaf_node %}
+                    <ul class="children">
+                    {{ children }}
+                    </ul>
+                {% endif %}
+            </li>
+        {% endrecursetree %}
+        </ul>
+
+    {% endblock %}
+
+    {% block main %}
+
+        <h1> Components of group {{group.name}}.</h1>
+        <div id="count">
+            <p>Count of  child groups:{{group_child_count}}</p>
+            <p>Count of modered child elements: {{elements_md_count}}</p>
+            <p>Total count of child elements: {{elements_gr_count}}</p>
+        </div>
+        <ul>
+            {% for child in group_childs %}
+
+                <li>
+                    <a href ="/nodeads/{{child.id}}/"><img src="{{child.icon.url}}" class="icon" height="20">{{ child.name }}</a>
+                        <p>{{child.description}}</p>
+                </li>
+            {% endfor %}
+        </ul>
+
+            <div class="element">
+                    <a href="/nodeads/create_el{{pk}}">
+                        <button id="create" type="button" class="save">Create element</button>
+                    </a>
+                {% if elements %}
+                    <p>Elements:</p>
+                    {% for element in elements %}
+                        <p><a href="/nodeads/el={{element.id}}"><img src="{{element.icon.url}}" height="20">{{ element.name }}</a></p>
+                        <p>{{element.description}}</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+
+        <div class="paginator">
+
+                {% if elements.has_previous %}
+                <span class="active">
+                    <a href="?page={{elements.previous_page_number}}">&laquo;</a>
+                </span>
+                {% else %}
+                    <span class="unactive">
+                        <a href="">&laquo;</a>
+                    </span>
+                {% endif %}
+                {% for num in elements.paginator.page_range %}
+                    {% if num == elements.number %}
+                        <span class="this">
+                            <a href="?page={{num}}">{{num}}</a>
+                        </span>
+                    {% else %}
+                        <span>
+                            <a href="?page={{num}}">{{num}}</a>
+                        </span>
+                    {% endif %}
+                {% endfor %}
+                {% if elements.has_next %}
+                <span class="active">
+                    <a href="?page={{elements.next_page_number}}">&raquo;</a>
+                </span>
+                 {% else %}
+                    <span class="unactive">
+                        <a href="">&raquo;</a>
+                    </span>
+                {% endif %}
+
+        </div>
+    {% endblock main %}
